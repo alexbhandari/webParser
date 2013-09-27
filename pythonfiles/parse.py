@@ -3,7 +3,7 @@
 import urllib.request
 from bs4 import BeautifulSoup
 from collections import Counter
-import operator
+#import operator
 import re
 
 class parse(object):
