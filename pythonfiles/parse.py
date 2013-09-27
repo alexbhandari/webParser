@@ -6,7 +6,7 @@ from collections import Counter
 import operator
 import re
 
-class parse:
+class parse(object):
 
    def __init__(self,links):
       self.links = links
@@ -35,10 +35,10 @@ class parse:
    #   print('Words: ' + wcount)
    #   print('Filtered: ' + filtered)
    
-   def parse():
+   def parse(self):
 
       words = []
-      for link in links:
+      for link in self.links:
          #get html
          with urllib.request.urlopen(link) as url:
             page = url.read()
@@ -52,7 +52,7 @@ class parse:
          
       #test regex
       regex = r'\.$|\W$'
-      filtered = test_regex(words,regex)
+      self.filtered = parse.test_regex(words,regex)
       #parse words. 
       #regex: \.$ is periods at the end of string OR \W$ is special chars at end 
       #of string (which also includes special chars alone.
