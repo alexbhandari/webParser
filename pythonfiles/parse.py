@@ -1,5 +1,16 @@
-#Basic script: get html, extract words, parse, and count
-#NEEDS TO BE MADE INTO AN OBJECT/CLASS STRUCTURE
+#This is the main handler for web parsing, API queries, and database loading and storing
+#Class Structure
+#Handler(now parser)
+#|  >(list)links
+#|  >(list)words
+#|  >(list)filtered
+#|  !parse()
+#|  !query()
+#|  !store()
+#|--word
+#|--word_ref
+#|--db_managment
+
 import urllib.request
 from bs4 import BeautifulSoup
 from collections import Counter

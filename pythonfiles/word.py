@@ -23,16 +23,26 @@ class word(object):
       return self.definition
    def get_context(self):
       return self.context
-   
    def get_forms(self):
       return self.forms
-   
    def get_count(self):
       return self.count
    def get_rating(self):
       return self.rating
 
+   def set_name(self,name):
+      self.name = name
+   def set_part_of_speech(self,pos):
+      self.part_of_speech = pos
+   def set_definition(self,definition):
+      self.defintion = definition
+   def set_context(self,context):
+      self.contex = contex
+   def set_forms(self,forms):
+      self.forms = forms
    def set_count(self,value):
       self.count = value
    def incr_count(self,value):
       self.count += value
+
+   def iterset(self
