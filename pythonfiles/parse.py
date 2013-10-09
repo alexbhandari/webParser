@@ -1,10 +1,10 @@
 #This is the main handler for web parsing, API queries, and database loading and storing
 #Class Structure
 #Handler(now parser)
-#|  >(list)links
 #|  >(list)words
 #|  >(list)filtered
-#|  !parse()
+#|  >(word_ref)dictionary
+#|  !parse(links)
 #|  !query()
 #|  !store()
 #|--word
@@ -20,15 +20,16 @@ import re
 
 class parse(object):
 
-   def __init__(self,links):
-      self.links = links
+   def __init__(self):
       self.words = {}
       self.filtered = {}
+      self.dictionary = word_ref()
    def get_words(self):
       return self.words
    def get_filtered(self):
       return self.filtered
-#  def print(self) --BELOW--
+
+# PARSER METHODS
    
    #outputs strings in words[] list matching input regex
    def test_regex(words,regex):
@@ -45,9 +46,9 @@ class parse(object):
       return count
 
    #get words from links, count and store in word list
-   def parse(self):
+   def parse(self,links):
       words = []
-      for link in self.links:
+      for link in links:
          #get html
          with urllib.request.urlopen(link) as url:
             page = url.read()
@@ -105,3 +106,22 @@ class parse(object):
       print('{:<20} {:<20}'.format('Filtered','Count'))
       print()
       p_touple_list(sorted_filtered,'{:<20} {:5d}')
+
+# QUERY METHODS
+   def query(self):
+      def json_get(json_obj,key):
+         json_obj['term0']['PrincipalTranslations']['0']['OriginalTerm']['POS']
+      for word in self.words:
+         json_obj = self.dictionary.query(word.get_name())
+         word.set_pos(json_obj['term0']['PrincipalTranslations']['0']['OriginalTerm']['POS'])
+         word.set_definition(json_obj['term0']['PrincipalTranslations']['0']['OriginalTerm']['POS'])
+         word.set_context(json_obj['term0']['PrincipalTranslations']['0']['OriginalTerm']['POS'])
+         word.set_french_name(json_obj['term0']['PrincipalTranslations']['0']['FirstTranslation']['term'])
+         word.set_french_definiton(json_obj['term0']['PrincipalTranslations']['0']['FirstTranslation']]['sense'])
+         word.set_french_context(json_obj['term0']['PrincipalTranslations']['0']['FirstTranslation']['context'])
+
+
+name,pos,definition,context,
+
+
+# DATABASE METHODS
