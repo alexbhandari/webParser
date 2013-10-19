@@ -17,6 +17,7 @@ from collections import Counter
 from word import word
 import operator
 import re
+from wordreference import word_ref
 
 class parse(object):
 
@@ -47,7 +48,7 @@ class parse(object):
 
    #get words from links, count and store in word list
    def parse(self,links):
-      words = []
+      strwords = []
       for link in links:
          #get html
          with urllib.request.urlopen(link) as url:
@@ -58,27 +59,64 @@ class parse(object):
          paragraphs = soup.find_all('p')
          for x in paragraphs:
             #separate all words (returns list)
-            words = words + x.getText().split()
+            strwords = strwords + x.getText().split()
          
       #test regex
       regex = r'\.$|\W$'
-      self.filtered = parse.test_regex(words,regex)
+      self.filtered = parse.test_regex(strwords,regex)
       #parse words. 
       #regex: \.$ is periods at the end of string OR \W$ is special chars at end 
       #of string (which also includes special chars alone.
       #still need work on apostrophies, missed spaces after periods and word?word
       #leaves empty strings instead of deleting, I think
       #this should be made into a method.
-      words[:] = [re.sub(regex,'',x) for x in words]
+      strwords[:] = [re.sub(regex,'',x) for x in strwords]
       #returns a dictionary object
-      words = Counter(words)
-      for x,y in words.items():
+      strwords = Counter(strwords)
+      for x,y in strwords.items():
          #could also use dict defaultset()
          if x in self.words:
             self.words[x].incr_count(y) 
          else:
             self.words[x] = word(x,None,None,None,None,y,None)
 
+
+# QUERY METHODS
+   def query(self):
+
+      def json_get(json_obj,lang,key):
+         if lang is 'en':
+            json_obj['term0']['PrincipalTranslations']['0']['OriginalTerm'][key]
+         elif lang is 'fr':
+            json_obj['term0']['PrincipalTranslations']['0']['FirstTranslation'][key]
+         else:
+            print('exception -- bad key')
+
+      for word in self.words.values():
+         if word.get_name() is '':
+            print('empty string rejected')
+         else:
+            print('Querying '+word.get_name()+'...')
+            json_obj = self.dictionary.query(word.get_name())
+            if json_get( json_obj, 'en','POS'  ) is not None:
+               word.set_pos(             json_get( json_obj, 'en','POS'     ))
+            if json_get( json_obj, 'en','sense' ) is not None:
+               word.set_definition(      json_get( json_obj, 'en','sense'   ))
+            if json_get( json_obj, 'en','usage' ) is not None:
+               word.set_context(         json_get( json_obj, 'en','usage'   ))
+            if json_get( json_obj, 'en','term' ) is not None:
+               word.set_french_name(     json_get( json_obj, 'fr','term'    ))
+            if json_get( json_obj, 'en','sense' ) is not None:
+               word.set_french_definion( json_get( json_obj, 'fr','sense'   ))
+            #word.set_french_context(  json_get( json_obj, 'fr','usage' ))
+
+# DATABASE METHODS
+
+
+
+
+
+# ADDITIONAL METHODS
    def pprint(self):
       #create list of words sorted in decending order
       sorted_words = list(reversed(sorted(list(self.words.values()), key=lambda x: x.get_count())))
@@ -107,21 +145,3 @@ class parse(object):
       print()
       p_touple_list(sorted_filtered,'{:<20} {:5d}')
 
-# QUERY METHODS
-   def query(self):
-      def json_get(json_obj,key):
-         json_obj['term0']['PrincipalTranslations']['0']['OriginalTerm']['POS']
-      for word in self.words:
-         json_obj = self.dictionary.query(word.get_name())
-         word.set_pos(json_obj['term0']['PrincipalTranslations']['0']['OriginalTerm']['POS'])
-         word.set_definition(json_obj['term0']['PrincipalTranslations']['0']['OriginalTerm']['POS'])
-         word.set_context(json_obj['term0']['PrincipalTranslations']['0']['OriginalTerm']['POS'])
-         word.set_french_name(json_obj['term0']['PrincipalTranslations']['0']['FirstTranslation']['term'])
-         word.set_french_definiton(json_obj['term0']['PrincipalTranslations']['0']['FirstTranslation']]['sense'])
-         word.set_french_context(json_obj['term0']['PrincipalTranslations']['0']['FirstTranslation']['context'])
-
-
-name,pos,definition,context,
-
-
-# DATABASE METHODS

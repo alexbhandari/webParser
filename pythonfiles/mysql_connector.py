@@ -190,7 +190,8 @@ key["name"] = "dog"
 key["pos"] = "animal"
 
 table.view_full_table()
-#table.find_row(key)
+table.find_row(key)
+table.view_full_table()
 #table.insert_row(key)
 
 #Once a query is done, results are stored in get_cursor(). We MUST read the results before moving on

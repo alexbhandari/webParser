@@ -1,11 +1,11 @@
 #Comtains models for storing words and data returned from parsing websites
 #and word_ref queries
 class word(object):
-   def __init__( self,name=None,part_of_speech=None,definition=None,
+   def __init__( self,name=None,pos=None,definition=None,
                  context=None,subwords=None,count=None,rating=None,
                  french_name=None,french_definition=None,french_context=None ):
       self.name=name
-      self.part_of_speech=part_of_speech
+      self.pos=pos
       self.definition=definition
       self.context=context
       self.rating=rating
@@ -19,8 +19,8 @@ class word(object):
       return self.name
    def get_name(self):
       return self.name
-   def get_part_of_speech(self):
-      return self.part_of_speech
+   def get_pos(self):
+      return self.pos
    def get_definition(self):
       return self.definition
    def get_context(self):
@@ -34,8 +34,8 @@ class word(object):
 
    def set_name(self,name):
       self.name = name
-   def set_part_of_speech(self,pos):
-      self.part_of_speech = pos
+   def set_pos(self,pos):
+      self.pos = pos
    def set_definition(self,definition):
       self.defintion = definition
    def set_context(self,context):

@@ -1,0 +1,36 @@
+echo
+echo "sql"
+echo "------------------------"
+python manage.py sql $1
+echo "------------------------"
+echo "------------------------"
+echo
+echo "custom sql"
+echo "------------------------"
+python manage.py sqlcustom $1
+echo "------------------------"
+echo "------------------------"
+echo
+echo "validate"
+echo "------------------------"
+python manage.py validate
+echo "------------------------"
+echo "------------------------"
+echo
+echo "sql clear"
+echo "------------------------"
+python manage.py sqlclear $1
+echo "------------------------"
+echo "------------------------"
+echo
+echo "sql indexes"
+echo "------------------------"
+python manage.py sqlindexes $1
+echo "------------------------"
+echo "------------------------"
+echo
+echo "sql all"
+echo "------------------------"
+python manage.py sqlall $1
+echo "------------------------"
+echo "------------------------"

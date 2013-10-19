@@ -1,0 +1,11 @@
+<!-- similar to edit_contact.html
+     for inputting a url to parse -->
+<h1>Input url to parse</h1>
+
+<form action="{% url "parse-address" %}" method="POST"><!--from parse url-->
+   {% csrf_token %} <!--hidden verification token-->
+   <p>{{ form.as_p }}</p> <!--display form for url input-->
+   <input id="parse_address" type="submit" value="Get Words!" /> <!--submit button-->
+</form>
+
+<a href="{% url "word-list" %}">back to list</a> <!--back uses word-list url-->
