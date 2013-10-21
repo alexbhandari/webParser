@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Words</h1>
+
+<u1>
+   {% for word in object_list %}
+      <li class="word">{{ word }}</li>
+   {% endfor %}
+</ul>
+<br/>
+<a href="new">Create new entry</a>
+{% endblock %}

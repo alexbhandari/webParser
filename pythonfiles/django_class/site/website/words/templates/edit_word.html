@@ -1,0 +1,11 @@
+<h1>Add Contact</h1>
+
+<form action="{% url "word-new" %}" method="POST">
+   {% csrf_token %} <!--inserts a hidden input that Django uses to verify the request-->
+   <ul>
+      {{ form.as_ul }} <!--form .as_ul : format unordered list .as_p format paragraph-->
+   </ul>
+   <input id="save_contact" type="submit" value="Save" />
+</form>
+
+<a href="{% url "word-list" %}">back to list</a> <!--contacts-list is the name of the view from the url configuration. url in template is equivalant to reverse in python code-->
